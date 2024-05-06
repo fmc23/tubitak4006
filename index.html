@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELAZIĞ LİSESİ TÜBİTAK 4006 PROJE NO:14</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ADD8E6; /* Açık mavi */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #content {
+            text-align: center;
+            color: #333; /* Yazı rengini koyu gri yap */
+        }
+
+        h1 {
+            color: #333; /* Başlık rengini koyu gri yap */
+            font-size: 24px; /* Yazı boyutunu büyüt */
+            font-weight: bold; /* Yazıyı kalın yap */
+        }
+
+        p {
+            color: #666; /* Metin rengini gri yap */
+            font-size: 16px; /* Yazı boyutunu 12px yap */
+        }
+
+        .logo {
+            margin-top: 20px; /* Logo ile yazı arasına 20px boşluk bırak */
+            width: 200px; /* Logo genişliği */
+            height: auto; /* Logo yüksekliğini otomatik ayarla */
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>ELAZIĞ LİSESİ TÜBİTAK 4006 PROJE NO:14</h1>
+        <img class="logo" src="logo.png" alt="Elazığ Lisesi TÜBİTAK 4006 Çalışma Ekibi Logo">
+        <img class="logo" src="logoel.png" alt="Elazığ Lisesi TÜBİTAK 4006 Çalışma Ekibi Logo">
+        <p>Proje Adı: Hasta/Sağlıklı İnsan Seslerinin Makine Öğrenmesi Teknikleriyle Sınıflandırılması</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <script type="text/javascript">
+        // Global variable to store the classifier
+        let classifier;
+
+        // Label
+        let label = 'listening...';
+
+        // Teachable Machine model URL:
+        let soundModel = 'https://teachablemachine.withgoogle.com/models/0Jy13LiFK/';
+
+        function preload() {
+            // Load the model
+            classifier = ml5.soundClassifier(soundModel + 'model.json');
+        }
+
+        function setup() {
+            createCanvas(320, 240);
+            // Start classifying
+            // The sound model will continuously listen to the microphone
+            classifier.classify(gotResult);
+        }
+
+        function draw() {
+            background(0);
+            // Draw the label in the canvas
+            fill(255);
+            textSize(32);
+            textAlign(CENTER, CENTER);
+            text(label, width / 2, height / 2);
+        }
+
+        // The model recognizing a sound will trigger this event
+        function gotResult(error, results) {
+            if (error) {
+                console.error(error);
+                return;
+            }
+            // The results are in an array ordered by confidence.
+            // console.log(results[0]);
+            label = results[0].label;
+        }
+    </script>
+</body>
+</html>
